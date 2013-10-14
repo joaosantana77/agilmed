@@ -1,0 +1,28 @@
+unit UAtivacao;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, FMTBcd, DB, SqlExpr, StdCtrls, ExtCtrls;
+
+type
+  TF_Ativacao = class(TForm)
+    Panel1: TPanel;
+    Button1: TButton;
+    Button2: TButton;
+    SQLDataSet1: TSQLDataSet;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  F_Ativacao: TF_Ativacao;
+
+implementation
+
+{$R *.dfm}
+
+end.

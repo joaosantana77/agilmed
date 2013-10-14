@@ -1,0 +1,70 @@
+CREATE TABLE PACIENTES (
+    IDPACIENTE  INTEGER NOT NULL,
+    NOME        VARCHAR(50),
+    IDADE       INTEGER,
+    DATA_ATEND  TIMESTAMP
+);
+
+----------------- INICIO PACIENTES_D
+CREATE OR ALTER PROCEDURE PACIENTES_D (
+    idpaciente integer)
+as
+begin
+  delete from pacientes
+  where (idpaciente = :idpaciente);
+end
+---------   INICIO PACIENTES IU
+CREATE OR ALTER PROCEDURE PACIENTES_IU (
+    idpaciente integer,
+    nome varchar(50),
+    idade integer,
+    data_atend timestamp)
+as
+begin
+  if (exists(select idpaciente from pacientes where idpaciente = :idpaciente )) then
+    update pacientes
+    set nome = :nome,
+        idade = :idade,
+        data_atend = :data_atend
+    where (idpaciente = :idpaciente);
+  else
+    insert into pacientes (
+        idpaciente,
+        nome,
+        idade,
+        data_atend)
+    values (
+        GEN_ID(idpaciente_seq,1),
+        :nome,
+        :idade,
+        :data_atend);
+end
+
+-----------------------
+ALTER TABLE TESTE ADD APRESENTACAO VARCHAR(30)
+ALTER TABLE TESTE ADD POSOLOGIA     VARCHAR(100)
+
+------------------- INICIO REMEDIOS_IU
+CREATE OR ALTER PROCEDURE REMEDIOS_IU (
+    idremedio integer,
+    nome varchar(100),
+    apresentacao varchar(30),
+    posologia varchar(100))
+as
+begin
+  if (exists(select idremedio from remedios where (idremedio = :idremedio))) then
+    update remedios
+    set nome = :nome,
+        apresentacao = :apresentacao,
+        posologia = :posologia
+
+    where (idremedio = :idremedio);
+  else
+    insert into remedios (
+        idremedio,
+        nome, apresentacao, posologia)
+    values (
+        GEN_ID(IDREMEDIO_SEQ,1),
+        :nome, :apresentacao, :posologia);
+end
+

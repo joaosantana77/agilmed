@@ -1,0 +1,63 @@
+unit UQRAT;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, QRCtrls, QuickRpt, ExtCtrls;
+
+type
+  TF_PrintAT = class(TForm)
+    qrAT: TQuickRep;
+    TitleBand1: TQRBand;
+    PageFooterBand1: TQRBand;
+    DetailBand1: TQRBand;
+    PageHeaderBand1: TQRBand;
+    qrlblTIT1: TQRLabel;
+    qrlblTIT2: TQRLabel;
+    QRRichText1: TQRRichText;
+    QRLabel2: TQRLabel;
+    QRSysData1: TQRSysData;
+    qrCargo: TQRLabel;
+    qrCRM: TQRLabel;
+    qrNome: TQRLabel;
+    procedure qrATBeforePrint(Sender: TCustomQuickRep;
+      var PrintReport: Boolean);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  F_PrintAT: TF_PrintAT;
+
+implementation
+
+uses Uprincipal;
+
+{$R *.dfm}
+
+procedure TF_PrintAT.qrATBeforePrint(Sender: TCustomQuickRep;
+  var PrintReport: Boolean);
+begin
+   if (RecImpTitulo = 'S') then
+   begin
+      qrlblTIT1.Caption := F_Principal.lblTIT1.Caption;
+      qrlblTIT2.Caption := F_Principal.lblTIT2.Caption;
+   end
+   else
+   begin
+      qrlblTIT1.Caption := ' ';
+      qrlblTIT2.Caption := ' ';
+   end;
+//   qrlblTIT1.Caption := F_Principal.lblTIT1.Caption;
+//   qrlblTIT2.Caption := F_Principal.lblTIT2.Caption;
+  // qrIMAT.Picture.LoadFromFile(EXTRACTFILEPATH(PARAMSTR(0))+'ADRM4.BMP')
+   qrNome.Caption  := NomeMedico;
+   qrCargo.Caption := CargMedico;
+   qrCRM.Caption   := CRM_Medico;
+
+end;
+
+end.

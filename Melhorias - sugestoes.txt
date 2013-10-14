@@ -1,0 +1,9 @@
+Melhorias AGILMED
+-------------------------------------
+
+1) Contabilizar os remedios, isto é, gravar os codigos dos remedios disponibilizados
+    por receita, junto com o codigo do cliente.
+    Servirá para estatísticas e contagem dos remedios distribuidos.
+2) Colocar usuario e senha para o acesso.
+3) colocar o about
+4) Fazer um mini help

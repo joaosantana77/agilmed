@@ -1,0 +1,82 @@
+O CAMPO VALIDADE DA TABELA CONFIG VAI TER OS SEGUINTES VALORES
+
+VALIDADE = 1 - PRIMEIRA UTILIZAÇÃO
+VALIDADE = 2 - JA FOI UTILIZADO MAIS DE UMA VEZ
+
+
+NO USES Registry;
+
+procedure TForm1.Button1Click(Sender: TObject);
+// Gravar um valor
+var Reg: TRegistry;
+begin
+  Reg := TRegistry.Create;
+  try
+    Reg.RootKey := HKEY_CURRENT_USER;
+    Reg.OpenKey('SANINFO', True);
+    Reg.WriteString('VALIDADE', edit1.Text);
+  finally
+    Reg.CloseKey;
+    Reg.Free;
+    inherited;
+  end;
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+// Ler um valor
+var
+  Reg : TRegistry;
+  val : string;
+begin
+  Reg := TRegistry.Create;
+  try
+    Reg.RootKey := HKEY_CURRENT_USER;
+    Reg.OpenKey('SANINFO', False);
+    ///ShowMessage(Reg.ReadString('VALIDACAO'));
+    val := Reg.ReadString('VALIDADE');
+    if val = '' then
+       showmessage('reg nao achado')
+    else
+       ShowMessage(val);
+  finally
+    Reg.CloseKey;
+    Reg.Free;
+    inherited;
+  end;
+end;
+------------------------------------------------------------
+COM FUNÇÃO
+-----------------
+-- LER
+
+function lerRegistro(chave : String; variavel : String) : String;
+var Reg : TRegistry;
+retorno : String;
+begin
+Reg := TRegistry.Create;
+try
+Reg.RootKey := HKEY_CURRENT_USER;
+Reg.OpenKey(chave,False);
+retorno := Reg.ReadString(variavel));
+finally
+Reg.CloseKey;
+Reg.Free;
+end;
+return retorno;
+end;
+
+-- GRAVAR
+procedure gravarRegistro(chave : String; variavel: String; valor : String);
+var Reg : TRegistry;
+begin
+Reg := TRegistry.Create;
+try
+Reg.RootKey := HKEY_CURRENT_USER;
+Reg.OpenKey(chave,True);
+Reg.WriteString(variavel,valor);
+finally
+Reg.CloseKey;
+Reg.Free;
+end;
+end;
+

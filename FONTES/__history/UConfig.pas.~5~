@@ -1,0 +1,66 @@
+unit UConfig;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls;
+
+type
+  TF_Config = class(TForm)
+    GroupBox1: TGroupBox;
+    Panel1: TPanel;
+    rgImp: TRadioGroup;
+    butSAIR: TButton;
+    butGRAVAR: TButton;
+    gbReceita: TGroupBox;
+    edtNumCopias: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    edtImpTitulo: TEdit;
+    procedure butGRAVARClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure butSAIRClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  F_Config: TF_Config;
+
+implementation
+
+uses Uprincipal;
+
+{$R *.dfm}
+
+procedure TF_Config.butSAIRClick(Sender: TObject);
+begin
+   Close;
+end;
+
+procedure TF_Config.butGRAVARClick(Sender: TObject);
+begin
+  if (rgImp.ItemIndex = 0) then
+    ImpDireto := 'S'
+  else
+    ImpDireto := 'N';
+  RecNumCopias := edtNumCopias.Text;
+  RecImpTitulo := edtImpTitulo.Text;
+  F_Principal.GravaIni(ImpDireto,RecNumCopias,RecImpTitulo);
+end;
+
+procedure TF_Config.FormShow(Sender: TObject);
+begin
+  F_Principal.LeIni(ImpDireto,RecNumCopias,RecImpTitulo);
+  edtNumCopias.Text := RecNumCopias;
+  edtImpTitulo.Text := RecImpTitulo;
+  if ImpDireto = 'S' then
+     rgImp.ItemIndex := 0
+  else
+     rgImp.ItemIndex := 1;
+end;
+
+end.

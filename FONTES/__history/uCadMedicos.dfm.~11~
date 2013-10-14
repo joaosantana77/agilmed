@@ -1,0 +1,216 @@
+inherited F_CadMed: TF_CadMed
+  Left = 282
+  Top = 251
+  Caption = 'Cadastro de M'#233'dicos'
+  ClientHeight = 428
+  ClientWidth = 712
+  OldCreateOrder = True
+  OnCreate = FormCreate
+  ExplicitLeft = 282
+  ExplicitTop = 251
+  ExplicitWidth = 728
+  ExplicitHeight = 466
+  PixelsPerInch = 96
+  TextHeight = 15
+  object Label1: TLabel [0]
+    Left = 21
+    Top = 11
+    Width = 31
+    Height = 15
+    Caption = 'Ident.'
+    FocusControl = DBEdit1
+  end
+  object Label2: TLabel [1]
+    Left = 21
+    Top = 40
+    Width = 31
+    Height = 15
+    Caption = 'Nome'
+    FocusControl = DBEdit2
+  end
+  object Label3: TLabel [2]
+    Left = 20
+    Top = 66
+    Width = 32
+    Height = 15
+    Caption = 'Cargo'
+    FocusControl = DBEdit3
+  end
+  object Label4: TLabel [3]
+    Left = 27
+    Top = 93
+    Width = 25
+    Height = 15
+    Caption = 'CRM'
+    FocusControl = DBEdit4
+  end
+  object Label5: TLabel [4]
+    Left = 211
+    Top = 122
+    Width = 33
+    Height = 15
+    Caption = 'Senha'
+    FocusControl = DBEdit5
+  end
+  object Label6: TLabel [5]
+    Left = 423
+    Top = 123
+    Width = 42
+    Height = 15
+    Caption = 'Gerente'
+    FocusControl = DBEdit6
+  end
+  object Label7: TLabel [6]
+    Left = 8
+    Top = 122
+    Width = 44
+    Height = 15
+    Caption = 'Usu'#225'rio'
+    FocusControl = DBEdit7
+  end
+  object Label8: TLabel [7]
+    Left = 496
+    Top = 122
+    Width = 27
+    Height = 15
+    Caption = '(S/N)'
+  end
+  inherited StatusBar1: TStatusBar
+    Top = 409
+    Width = 712
+    ExplicitTop = 319
+    ExplicitWidth = 727
+  end
+  inherited GroupBox1: TGroupBox
+    Top = 354
+    Width = 712
+    TabOrder = 8
+    ExplicitTop = 264
+    ExplicitWidth = 727
+  end
+  inherited DBGrid1: TDBGrid
+    Top = 154
+    Width = 712
+    Height = 200
+    TabOrder = 7
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'IDMED'
+        Title.Caption = 'Ident.'
+        Width = 46
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'USUARIO'
+        Title.Caption = 'Usu'#225'rio'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOME'
+        Title.Caption = 'Nome'
+        Width = 299
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CARGO'
+        Title.Caption = 'Cargo'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CRM'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'GERENTE'
+        Visible = True
+      end>
+  end
+  inherited DBNavigator1: TDBNavigator
+    Left = 442
+    Top = 3
+    Hints.Strings = ()
+    TabOrder = 10
+    ExplicitLeft = 442
+    ExplicitTop = 3
+  end
+  object DBEdit1: TDBEdit [12]
+    Left = 69
+    Top = 8
+    Width = 49
+    Height = 23
+    DataField = 'IDMED'
+    DataSource = DataSource1
+    Enabled = False
+    TabOrder = 0
+  end
+  object DBEdit2: TDBEdit [13]
+    Left = 69
+    Top = 34
+    Width = 458
+    Height = 23
+    CharCase = ecUpperCase
+    DataField = 'NOME'
+    DataSource = DataSource1
+    TabOrder = 1
+  end
+  object DBEdit3: TDBEdit [14]
+    Left = 69
+    Top = 61
+    Width = 304
+    Height = 23
+    DataField = 'CARGO'
+    DataSource = DataSource1
+    TabOrder = 2
+  end
+  object DBEdit4: TDBEdit [15]
+    Left = 69
+    Top = 90
+    Width = 124
+    Height = 23
+    DataField = 'CRM'
+    DataSource = DataSource1
+    TabOrder = 3
+  end
+  object DBEdit5: TDBEdit [16]
+    Left = 264
+    Top = 119
+    Width = 124
+    Height = 23
+    DataField = 'SENHA'
+    DataSource = DataSource1
+    PasswordChar = '*'
+    TabOrder = 5
+  end
+  object DBEdit6: TDBEdit [17]
+    Left = 471
+    Top = 119
+    Width = 19
+    Height = 23
+    CharCase = ecUpperCase
+    DataField = 'GERENTE'
+    DataSource = DataSource1
+    TabOrder = 6
+    OnExit = DBEdit6Exit
+  end
+  object DBEdit7: TDBEdit [18]
+    Left = 69
+    Top = 119
+    Width = 124
+    Height = 23
+    CharCase = ecUpperCase
+    DataField = 'USUARIO'
+    DataSource = DataSource1
+    TabOrder = 4
+  end
+  inherited DataSource1: TDataSource
+    DataSet = DM.cdsMedicos
+    Left = 664
+    Top = 48
+  end
+end

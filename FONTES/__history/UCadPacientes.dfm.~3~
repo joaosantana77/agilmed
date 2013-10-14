@@ -1,0 +1,143 @@
+inherited F_CadPacientes: TF_CadPacientes
+  Left = 263
+  Top = 177
+  Caption = 'Cadastro de Pacientes'
+  ClientHeight = 478
+  ClientWidth = 729
+  ExplicitLeft = 263
+  ExplicitTop = 177
+  ExplicitWidth = 745
+  ExplicitHeight = 516
+  PixelsPerInch = 96
+  TextHeight = 15
+  object Label1: TLabel [0]
+    Left = 24
+    Top = 16
+    Width = 11
+    Height = 15
+    Caption = 'Id'
+    FocusControl = DBEdit1
+  end
+  object Label2: TLabel [1]
+    Left = 114
+    Top = 16
+    Width = 98
+    Height = 15
+    Caption = 'Data Atendimento'
+  end
+  object Label3: TLabel [2]
+    Left = 258
+    Top = 16
+    Width = 31
+    Height = 15
+    Caption = 'Idade'
+    FocusControl = DBEdit3
+  end
+  object Label4: TLabel [3]
+    Left = 24
+    Top = 59
+    Width = 31
+    Height = 15
+    Caption = 'Nome'
+    FocusControl = DBEdit4
+  end
+  object Label5: TLabel [4]
+    Left = 24
+    Top = 112
+    Width = 43
+    Height = 15
+    Caption = 'Receita '
+  end
+  object Label6: TLabel [5]
+    Left = 480
+    Top = 112
+    Width = 41
+    Height = 15
+    Caption = 'Exames'
+  end
+  object Label7: TLabel [6]
+    Left = 249
+    Top = 112
+    Width = 48
+    Height = 15
+    Caption = 'Atestado'
+  end
+  inherited StatusBar1: TStatusBar
+    Top = 459
+    Width = 729
+  end
+  inherited GroupBox1: TGroupBox
+    Top = 404
+    Width = 729
+  end
+  inherited DBGrid1: TDBGrid
+    Top = 244
+    Width = 729
+  end
+  inherited DBNavigator1: TDBNavigator
+    Left = 336
+    Top = 11
+    Hints.Strings = ()
+    ExplicitLeft = 336
+    ExplicitTop = 11
+  end
+  object DBEdit1: TDBEdit [11]
+    Left = 24
+    Top = 32
+    Width = 57
+    Height = 23
+    DataField = 'IDPACIENTE'
+    DataSource = DataSource1
+    TabOrder = 4
+  end
+  object DBEdit3: TDBEdit [12]
+    Left = 256
+    Top = 32
+    Width = 41
+    Height = 23
+    DataField = 'IDADE'
+    DataSource = DataSource1
+    TabOrder = 5
+  end
+  object DBEdit4: TDBEdit [13]
+    Left = 24
+    Top = 77
+    Width = 649
+    Height = 23
+    DataField = 'NOME'
+    DataSource = DataSource1
+    TabOrder = 6
+  end
+  object DBMReceita: TDBMemo [14]
+    Left = 24
+    Top = 126
+    Width = 206
+    Height = 105
+    DataField = 'RECEITUARIO'
+    DataSource = DataSource1
+    TabOrder = 7
+  end
+  object DBMExames: TDBMemo [15]
+    Left = 478
+    Top = 127
+    Width = 213
+    Height = 104
+    DataField = 'EXAMES'
+    DataSource = DataSource1
+    TabOrder = 9
+  end
+  object DBMAtestado: TDBMemo [16]
+    Left = 247
+    Top = 127
+    Width = 216
+    Height = 105
+    DataField = 'ATESTADO'
+    DataSource = DataSource1
+    TabOrder = 8
+  end
+  inherited DataSource1: TDataSource
+    DataSet = DM.cdsCadPACI
+    Left = 584
+    Top = 32
+  end
+end

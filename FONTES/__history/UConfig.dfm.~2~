@@ -1,0 +1,62 @@
+object F_Config: TF_Config
+  Left = 336
+  Top = 291
+  Caption = 'Configura'#231#227'o'
+  ClientHeight = 253
+  ClientWidth = 490
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object GroupBox1: TGroupBox
+    Left = 8
+    Top = 8
+    Width = 401
+    Height = 113
+    Caption = 'Impressora'
+    TabOrder = 0
+    object RadioGroup1: TRadioGroup
+      Left = 64
+      Top = 24
+      Width = 313
+      Height = 73
+      ItemIndex = 0
+      Items.Strings = (
+        'Imprime direto para Impressora'
+        'Preview')
+      TabOrder = 0
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 212
+    Width = 490
+    Height = 41
+    Align = alBottom
+    TabOrder = 1
+    ExplicitLeft = 240
+    ExplicitTop = 192
+    ExplicitWidth = 185
+    object Button1: TButton
+      Left = 392
+      Top = 8
+      Width = 83
+      Height = 25
+      Caption = 'Sair'
+      TabOrder = 0
+    end
+    object Button2: TButton
+      Left = 296
+      Top = 8
+      Width = 75
+      Height = 25
+      Caption = 'Gravar'
+      TabOrder = 1
+    end
+  end
+end

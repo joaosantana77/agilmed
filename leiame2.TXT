@@ -1,0 +1,18 @@
+AGILMEDC
+----------------
+Para entrar no sistema na 1a. vez é necessário:
+1) Se não tiver o Firebird instalado
+    Clicar em "Firebird-2.5.0.26074_1_Win32"  na pasta
+    do AgilmedC e ir teclando Enter para as opções.
+    Normalmente, se já tem instalado
+    não vai precisar instalar de novo. 
+    Se for o seu caso, consulte-me.
+2) Usario inicial = INICIO
+    senha inicial = 123
+    Por favor entre no cadastro de médicos e 
+    informe nome, CRM, usuario e senha para
+    utilizar o sistema. 
+
+Espero este programa lhe seja útil.
+Para mudanças e implementações ligar para
+João Araújo - 84-87311255 (OI) ou 84-96278837 (TIM)

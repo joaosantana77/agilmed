@@ -1,0 +1,52 @@
+unit UConfig;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls;
+
+type
+  TF_Config = class(TForm)
+    GroupBox1: TGroupBox;
+    Panel1: TPanel;
+    rgImp: TRadioGroup;
+    Button1: TButton;
+    Button2: TButton;
+    procedure Button2Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  F_Config: TF_Config;
+
+implementation
+
+uses Uprincipal;
+
+{$R *.dfm}
+
+procedure TF_Config.Button2Click(Sender: TObject);
+begin
+  if (rgImp.ItemIndex = 0) then
+    F_Principal.GravaIni('S')
+  else
+    F_Principal.GravaIni('N')
+
+end;
+
+procedure TF_Config.FormShow(Sender: TObject);
+begin
+  F_Principal.LeIni(ImpDireto);
+  if ImpDireto = 'S' then
+     rgImp.ItemIndex := 0
+  else
+     rgImp.ItemIndex := 1;
+
+end;
+
+end.

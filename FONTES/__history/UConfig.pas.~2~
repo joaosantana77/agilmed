@@ -1,0 +1,31 @@
+unit UConfig;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls;
+
+type
+  TF_Config = class(TForm)
+    GroupBox1: TGroupBox;
+    Panel1: TPanel;
+    RadioGroup1: TRadioGroup;
+    Button1: TButton;
+    Button2: TButton;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  F_Config: TF_Config;
+
+implementation
+
+uses Uprincipal;
+
+{$R *.dfm}
+
+end.

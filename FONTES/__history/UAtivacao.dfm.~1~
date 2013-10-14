@@ -1,0 +1,56 @@
+object F_Ativacao: TF_Ativacao
+  Left = 283
+  Top = 202
+  Caption = 'Ativa'#231#227'o Agilmed vers'#227'o 2.3'
+  ClientHeight = 206
+  ClientWidth = 460
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 460
+    Height = 41
+    Align = alTop
+    Caption = 'Ativa'#231#227'o Agilmed'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 0
+    ExplicitLeft = 56
+    ExplicitTop = 16
+    ExplicitWidth = 185
+  end
+  object Button1: TButton
+    Left = 144
+    Top = 96
+    Width = 177
+    Height = 25
+    Caption = 'Ativar'
+    TabOrder = 1
+  end
+  object Button2: TButton
+    Left = 144
+    Top = 144
+    Width = 177
+    Height = 25
+    Caption = 'Sair'
+    TabOrder = 2
+  end
+  object SQLDataSet1: TSQLDataSet
+    DbxCommandType = 'Dbx.SQL'
+    Params = <>
+    Left = 40
+    Top = 64
+  end
+end

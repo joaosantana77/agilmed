@@ -1,0 +1,558 @@
+object DM: TDM
+  OldCreateOrder = False
+  Left = 441
+  Top = 189
+  Height = 533
+  Width = 719
+  object CONEXAO: TSQLConnection
+    ConnectionName = 'AGILMED'
+    DriverName = 'FIREBIRD'
+    GetDriverFunc = 'getSQLDriverINTERBASE'
+    LibraryName = 'dbxfb.dll'
+    LoginPrompt = False
+    Params.Strings = (
+      'drivername=FIREBIRD'
+      'blobsize=-1'
+      'commitretain=False'
+      'Database=LOCALHOST:C:\SISTEMAS\AGILMED\AGILMED.FDB'
+      'localecode=0000'
+      'password=masterkey'
+      'rolename=RoleName'
+      'sqldialect=3'
+      'isolationlevel=ReadCommitted'
+      'user_name=sysdba'
+      'waitonlocks=True'
+      'trim char=False'
+      'urlpath=C:\SISTEMAS\AGILMED_Desenv\DADOS')
+    VendorLib = 'fbclient.dll'
+    BeforeConnect = CONEXAOBeforeConnect
+    Connected = True
+    Left = 352
+    Top = 24
+  end
+  object sqlMedicos: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 
+      'select IDMED, NOME, CARGO, CRM, USUARIO,'#13#10'SENHA, GERENTE from ME' +
+      'DICOS'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = CONEXAO
+    Left = 24
+    Top = 16
+  end
+  object dspMedicos: TDataSetProvider
+    DataSet = sqlMedicos
+    Left = 104
+    Top = 16
+  end
+  object cdsMedicos: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspMedicos'
+    Left = 184
+    Top = 16
+    object cdsMedicosIDMED: TIntegerField
+      FieldName = 'IDMED'
+      Required = True
+    end
+    object cdsMedicosNOME: TStringField
+      FieldName = 'NOME'
+      Size = 50
+    end
+    object cdsMedicosCARGO: TStringField
+      FieldName = 'CARGO'
+    end
+    object cdsMedicosCRM: TStringField
+      FieldName = 'CRM'
+      Size = 30
+    end
+    object cdsMedicosSENHA: TStringField
+      FieldName = 'SENHA'
+    end
+    object cdsMedicosGERENTE: TStringField
+      FieldName = 'GERENTE'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsMedicosUSUARIO: TStringField
+      FieldName = 'USUARIO'
+      Size = 15
+    end
+  end
+  object sqlRemedios: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 
+      'select IDREMEDIO, NOME, APRESENTACAO, POSOLOGIA'#13#10' from REMEDIOS ' +
+      ' order by NOME'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = CONEXAO
+    Left = 24
+    Top = 64
+  end
+  object dspRemedios: TDataSetProvider
+    DataSet = sqlRemedios
+    Left = 104
+    Top = 64
+  end
+  object cdsRemedios: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspRemedios'
+    AfterScroll = cdsRemediosAfterScroll
+    Left = 184
+    Top = 64
+    object cdsRemediosIDREMEDIO: TIntegerField
+      DisplayLabel = 'Ident'
+      FieldName = 'IDREMEDIO'
+    end
+    object cdsRemediosNOME: TStringField
+      DisplayLabel = 'Descri'#231#227'o'
+      FieldName = 'NOME'
+      Size = 100
+    end
+    object cdsRemediosAPRESENTACAO: TStringField
+      FieldName = 'APRESENTACAO'
+      Size = 30
+    end
+    object cdsRemediosPOSOLOGIA: TStringField
+      FieldName = 'POSOLOGIA'
+      Size = 120
+    end
+  end
+  object spRemedios_IU: TSQLStoredProc
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Precision = 4
+        Name = 'IDREMEDIO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Precision = 100
+        Name = 'NOME'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Precision = 30
+        Name = 'APRESENTACAO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Precision = 100
+        Name = 'POSOLOGIA'
+        ParamType = ptInput
+      end>
+    SQLConnection = CONEXAO
+    StoredProcName = 'REMEDIOS_IU'
+    Left = 368
+    Top = 112
+  end
+  object spRemedios_D: TSQLStoredProc
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'IDREMEDIO'
+        ParamType = ptInput
+      end>
+    SQLConnection = CONEXAO
+    StoredProcName = 'REMEDIOS_D'
+    Left = 288
+    Top = 112
+  end
+  object sqlCadRemed: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 
+      'select IDREMEDIO, NOME, APRESENTACAO,'#13#10' POSOLOGIA from REMEDIOS ' +
+      'ORDER BY NOME'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = CONEXAO
+    Left = 24
+    Top = 112
+  end
+  object dspCadRemed: TDataSetProvider
+    DataSet = sqlCadRemed
+    Left = 112
+    Top = 112
+  end
+  object cdsCadRemed: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspCadRemed'
+    BeforePost = cdsCadRemedBeforePost
+    BeforeDelete = cdsCadRemedBeforeDelete
+    Left = 192
+    Top = 112
+    object cdsCadRemedIDREMEDIO: TIntegerField
+      FieldName = 'IDREMEDIO'
+    end
+    object cdsCadRemedNOME: TStringField
+      FieldName = 'NOME'
+      Size = 100
+    end
+    object cdsCadRemedAPRESENTACAO: TStringField
+      FieldName = 'APRESENTACAO'
+      Size = 30
+    end
+    object cdsCadRemedPOSOLOGIA: TStringField
+      FieldName = 'POSOLOGIA'
+      Size = 120
+    end
+  end
+  object sqlCadLoc: TSQLDataSet
+    CommandText = 'select IDPOSTO, TIT1, TIT2, TIT3 from POSTO'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = CONEXAO
+    Left = 24
+    Top = 176
+  end
+  object dspCadLoc: TDataSetProvider
+    DataSet = sqlCadLoc
+    Left = 96
+    Top = 176
+  end
+  object cdsCadLoc: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspCadLoc'
+    BeforePost = cdsCadLocBeforePost
+    BeforeDelete = cdsCadLocBeforeDelete
+    Left = 160
+    Top = 176
+    object cdsCadLocIDPOSTO: TIntegerField
+      FieldName = 'IDPOSTO'
+    end
+    object cdsCadLocTIT1: TStringField
+      FieldName = 'TIT1'
+      Size = 30
+    end
+    object cdsCadLocTIT2: TStringField
+      FieldName = 'TIT2'
+      Size = 30
+    end
+    object cdsCadLocTIT3: TStringField
+      FieldName = 'TIT3'
+      Size = 30
+    end
+  end
+  object spCadLoc_IU: TSQLStoredProc
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'IDPOSTO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'TIT1'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'TIT2'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'TIT3'
+        ParamType = ptInput
+      end>
+    SQLConnection = CONEXAO
+    StoredProcName = 'POSTO_IU'
+    Left = 232
+    Top = 176
+  end
+  object spCadLoc_D: TSQLStoredProc
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'IDPOSTO'
+        ParamType = ptInput
+      end>
+    SQLConnection = CONEXAO
+    StoredProcName = 'POSTO_D'
+    Left = 312
+    Top = 176
+  end
+  object sqlCadExam: TSQLDataSet
+    CommandText = 'select IDEXAME, NOME, GRUPO, SN from EXAMES'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = CONEXAO
+    Left = 24
+    Top = 224
+  end
+  object dspCadExam: TDataSetProvider
+    DataSet = sqlCadExam
+    Left = 96
+    Top = 224
+  end
+  object cdsCadExam: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspCadExam'
+    BeforePost = cdsCadExamBeforePost
+    BeforeDelete = cdsCadExamBeforeDelete
+    Left = 168
+    Top = 224
+    object cdsCadExamIDEXAME: TIntegerField
+      DisplayLabel = 'Ident.'
+      FieldName = 'IDEXAME'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+    end
+    object cdsCadExamNOME: TStringField
+      DisplayLabel = 'Nome do Exame'
+      FieldName = 'NOME'
+      Size = 50
+    end
+    object cdsCadExamGRUPO: TStringField
+      DisplayLabel = 'Grupo'
+      FieldName = 'GRUPO'
+      Size = 30
+    end
+    object cdsCadExamSN: TStringField
+      FieldName = 'SN'
+      FixedChar = True
+      Size = 1
+    end
+  end
+  object spCadExam_IU: TSQLStoredProc
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'IDEXAME'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'NOME'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'GRUPO'
+        ParamType = ptInput
+      end>
+    SQLConnection = CONEXAO
+    StoredProcName = 'EXAMES_IU'
+    Left = 240
+    Top = 224
+  end
+  object spCadExam_D: TSQLStoredProc
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'IDEXAME'
+        ParamType = ptInput
+      end>
+    SQLConnection = CONEXAO
+    StoredProcName = 'EXAMES_D'
+    Left = 328
+    Top = 224
+  end
+  object sqlCadPos: TSQLDataSet
+    CommandText = 'select IDPOSOL, POSOLOGIA from POSOLOGIAS'#13#10'order by IDPOSOL'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = CONEXAO
+    Left = 32
+    Top = 280
+  end
+  object dspCadPos: TDataSetProvider
+    DataSet = sqlCadPos
+    Left = 104
+    Top = 280
+  end
+  object cdsCadPos: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspCadPos'
+    BeforePost = cdsCadPosBeforePost
+    BeforeDelete = cdsCadPosBeforeDelete
+    Left = 176
+    Top = 280
+    object cdsCadPosIDPOSOL: TIntegerField
+      FieldName = 'IDPOSOL'
+    end
+    object cdsCadPosPOSOLOGIA: TStringField
+      FieldName = 'POSOLOGIA'
+      Size = 60
+    end
+  end
+  object spPOSOL_IU: TSQLStoredProc
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'IDPOSOL'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'POSOLOGIA'
+        ParamType = ptInput
+      end>
+    SQLConnection = CONEXAO
+    StoredProcName = 'POSOLOGIAS_IU'
+    Left = 256
+    Top = 280
+  end
+  object spPOSOL_D: TSQLStoredProc
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'IDPOSOL'
+        ParamType = ptInput
+      end>
+    SQLConnection = CONEXAO
+    StoredProcName = 'POSOLOGIAS_D'
+    Left = 336
+    Top = 280
+  end
+  object sqlEXAMES: TSQLDataSet
+    CommandText = 'select IDEXAME, NOME, GRUPO, SN from EXAMES'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = CONEXAO
+    Left = 40
+    Top = 336
+  end
+  object dspEXAMES: TDataSetProvider
+    DataSet = sqlEXAMES
+    Left = 112
+    Top = 336
+  end
+  object cdsEXAMES: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspEXAMES'
+    Left = 184
+    Top = 336
+    object cdsEXAMESIDEXAME: TIntegerField
+      FieldName = 'IDEXAME'
+      Required = True
+    end
+    object cdsEXAMESNOME: TStringField
+      FieldName = 'NOME'
+      Size = 50
+    end
+    object cdsEXAMESGRUPO: TStringField
+      FieldName = 'GRUPO'
+      Size = 30
+    end
+    object cdsEXAMESSN: TStringField
+      FieldName = 'SN'
+      FixedChar = True
+      Size = 1
+    end
+  end
+  object sqlCadPACI: TSQLDataSet
+    SchemaName = 'sysdba'
+    CommandText = 
+      'select  IDPACIENTE, DATA_ATEND,  IDADE,'#13#10'         NOME'#13#10' from PA' +
+      'CIENTES ORDER BY DATA_ATEND DESC'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = 1
+    Params = <>
+    SQLConnection = CONEXAO
+    Left = 40
+    Top = 384
+  end
+  object dspCadPACI: TDataSetProvider
+    DataSet = sqlCadPACI
+    Left = 112
+    Top = 384
+  end
+  object cdsCadPACI: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspCadPACI'
+    BeforePost = cdsCadPACIBeforePost
+    BeforeDelete = cdsCadPACIBeforeDelete
+    Left = 184
+    Top = 384
+    object cdsCadPACIIDPACIENTE: TIntegerField
+      DisplayLabel = 'Id'
+      FieldName = 'IDPACIENTE'
+    end
+    object cdsCadPACIDATA_ATEND: TSQLTimeStampField
+      DisplayLabel = 'Data Atendimento'
+      FieldName = 'DATA_ATEND'
+    end
+    object cdsCadPACIIDADE: TIntegerField
+      DisplayLabel = 'Idade'
+      FieldName = 'IDADE'
+    end
+    object cdsCadPACINOME: TStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'NOME'
+      Size = 50
+    end
+  end
+  object spPACIENTES_IU: TSQLStoredProc
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Precision = 4
+        Name = 'IDPACIENTE'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Precision = 50
+        Name = 'NOME'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Precision = 4
+        Name = 'IDADE'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftTimeStamp
+        Precision = 8
+        Name = 'DATA_ATEND'
+        ParamType = ptInput
+      end>
+    SQLConnection = CONEXAO
+    StoredProcName = 'PACIENTES_IU'
+    Left = 264
+    Top = 384
+  end
+  object spPACIENTES_D: TSQLStoredProc
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Precision = 4
+        Name = 'IDPACIENTE'
+        ParamType = ptInput
+      end>
+    SQLConnection = CONEXAO
+    StoredProcName = 'PACIENTES_D'
+    Left = 344
+    Top = 384
+  end
+end

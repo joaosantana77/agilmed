@@ -1,0 +1,18 @@
+Criei uma conta no gmail para dar suporte ao sistema
+agilmedsuporte@gmail.com
+a senha é a padrão
+
+
+- colocar a posologia em cx baixa - nao funcionou
+- ver o tamanho ideal para quebrar linha - 40
+- ver o tamanho do campo no cds - independe
+--------------------------------------- ok ------------------------------------
+- dar opção de colocar o titulo ou não no qr
+- imprimir na tela os dados dos pacientes atendidos
+  e poder mandar para a impressora
+- 
+- no arquivo de configuraçao adicionar
+-- margem superior receita -      RecmgSup
+- quantidade de copias receita - RecQtdcopia
+- imprime titulo s/n                    - RecTitulo
+- 

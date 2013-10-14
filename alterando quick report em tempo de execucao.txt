@@ -1,0 +1,20 @@
+qrletiquetas.QuickRep1.Page.Columns:=FrDmGr.QyGR_EtiqEstruturas.fieldbyname('in_numcoletiq').asinteger*10;
+qrletiquetas.QuickRep1.Page.ColumnSpace:=FrDmGr.QyGR_EtiqEstruturas.fieldbyname(
+'in_espacocol').asfloat*10; qrletiquetas.QuickRep1.Page.LeftMargin:=FrDmGr.QyGR_EtiqEstruturas.fieldbyname('margemlateral').asfloat*10;
+qrletiquetas.QuickRep1.Page.Length:=FrDmGr.QyGR_EtiqEstruturas.fieldbyname('in_alturapagina').asfloat*10;
+qrletiquetas.QuickRep1.Page.Orientation:=poPortrait;
+// qrletiquetas.QuickRep1.Page.PaperSize:='A5';
+qrletiquetas.QuickRep1.Page.LeftMargin:=FrDmGr.QyGR_EtiqEstruturas.fieldbyname('margemlateral').asfloat*10;
+qrletiquetas.QuickRep1.Page.RightMargin:=FrDmGr.QyGR_EtiqEstruturas.fieldbyname(
+'margemlateral').asfloat*10;
+qrletiquetas.QuickRep1.Page.TopMargin:=FrDmGr.QyGR_EtiqEstruturas.fieldbyname('margemsup').asfloat*10;
+qrletiquetas.QuickRep1.Page.bottomMargin:=FrDmGr.QyGR_EtiqEstruturas.fieldbyname
+('margemsup').asfloat*10;
+qrletiquetas.QuickRep1.Page.Width:=FrDmGr.QyGR_EtiqEstruturas.fieldbyname('in_largurapagina').asfloat*10;
+
+qrletiquetas.QuickRep1.PrinterSettings.Copies:=strtoint(edcopias.text);
+//qrletiquetas.QuickRep1.units:=qrMM;
+//qrletiquetas.DetailBand1.Height:=128;
+//qrletiquetas.DetailBand1.Width:=241;
+qrletiquetas.DetailBand1.Size.width:=63.8;
+qrletiquetas.DetailBand1.Size.height:=33.9;

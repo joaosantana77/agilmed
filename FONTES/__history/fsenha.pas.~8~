@@ -1,0 +1,148 @@
+unit fsenha;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, Mask, DBCtrls, DB, FMTBcd, DBClient,
+  Provider, SqlExpr, ComCtrls, DateUtils;
+
+type
+  TF_Senha = class(TForm)
+    ButOK: TButton;
+    ButCancelar: TButton;
+    Label2: TLabel;
+    Label3: TLabel;
+    Image1: TImage;
+    Label4: TLabel;
+    EdtUsuario: TEdit;
+    EdtSenha: TEdit;
+    StatusBar1: TStatusBar;
+    Label1: TLabel;
+    cbPosto: TComboBox;
+    procedure ButCancelarClick(Sender: TObject);
+    procedure ButOKClick(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  F_Senha: TF_Senha;
+  Medico, Gerente: string;
+
+implementation
+
+uses udm, Uprincipal;
+{$R *.dfm}
+
+procedure TF_Senha.ButCancelarClick(Sender: TObject);
+begin
+  Application.Terminate;
+end;
+
+procedure TF_Senha.ButOKClick(Sender: TObject);
+var
+  Senha, Medico: String;
+begin
+  DM.cdsMEDICOS.Filtered := False;
+  Medico := EdtUsuario.Text;
+  DM.cdsMEDICOS.Open;
+  if DM.cdsMEDICOS.Locate('USUARIO', Medico, []) then
+  begin
+    DM.cdsMEDICOS.Filter := 'USUARIO = ' + QuotedSTR(Medico);
+    DM.cdsMEDICOS.Filtered := True;
+    Senha := EdtSenha.Text;
+    Medico := EdtUsuario.Text;
+    Gerente := DM.cdsMEDICOSGERENTE.Text;
+    NomeMedico := DM.cdsMEDICOSNOME.Text;
+    CargMedico := DM.cdsMedicosCARGO.Text;
+    CRM_Medico := DM.cdsMedicosCRM.Text;
+    if DM.cdsMEDICOS.Locate('SENHA', Senha, [loCaseInsensitive]) then
+    begin
+      F_Senha.Tag := 0;
+      Close;
+    end
+    else
+    begin
+      Application.MessageBox('Senha Inválida !', 'AGILMED', 16);
+      DM.cdsMEDICOS.Close;
+      EdtUsuario.SetFocus;
+    end
+  end
+  else
+  begin
+    Application.MessageBox('Médico Inválido !', 'AGILMED', 16);
+    EdtUsuario.Clear;
+    DM.cdsMEDICOS.Close;
+  end;
+end;
+
+procedure TF_Senha.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    Perform(WM_NEXTDLGCTL, 0, 0); // Dar Tab pelo ENTER
+  end;
+end;
+
+procedure TF_Senha.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  DM.cdsMEDICOS.Filtered := False;
+  DM.cdsMEDICOS.Close;
+end;
+
+procedure TF_Senha.FormCreate(Sender: TObject);
+var
+  dtI, dtA, Data: TDatetime;
+  Qry  : TSQLQuery;
+  dias : Integer;
+
+begin
+  DM.cdsConf.Open;
+  if (DM.cdsConfATIVADO.AsInteger = 0) then
+  begin
+    dtI := now+60;
+    // atualiza a data e o campo ativado para 1
+    Qry := TSQLQuery.Create(nil); // cria uma instancia do objeto
+    Qry.SQLConnection := DM.CONEXAO; // o seu componente de conexão com o banco
+    Qry.SQL.Add('UPDATE CONFIG SET DATA = ');
+    Qry.SQL.Add(QuotedSTR(DateToStr(dtI)));
+    Qry.SQL.Add(', ATIVADO = 1');
+    Try
+      Qry.ExecSQL;
+    finally
+      FreeAndNil(Qry); // libera o objeto da memória
+    end;
+  end;
+  if (DM.cdsConfATIVADO.AsInteger = 1) then
+  begin
+      dtI := DM.cdsConfDATA.AsDateTime;
+      dias := DaysBetween(Now, dtI) + 1;
+      if (dias < 1) then
+         showMessage('Versão Demo expirou - Contacte João no (84)87311255)')
+      else
+      begin
+        StatusBar1.Panels[0].Text := 'Versão Demo - Faltam '+FloatToStr(dias)+ ' dias';
+      end;
+  end;
+  if (DM.cdsConfATIVADO.AsInteger = 2) then
+  begin
+     StatusBar1.Panels[0].Text := 'Versão 2.3';
+  end;
+  DM.cdsPosto.Open;
+  while not DM.cdsposto.Eof do
+  begin
+    cbposto.Items.Append(Trim(DM.cdsPosto.AsString)); //.Add(CDS_GrupoDESCRICAO.AsString);
+    DM.cdsPosto.Next;
+  end;
+
+
+end;
+
+end.

@@ -1,0 +1,50 @@
+unit uCadMedicos;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ufrmCadPadrao, DB, ExtCtrls, DBCtrls, Grids,
+  DBGrids, StdCtrls, Buttons, ComCtrls, Mask;
+
+type
+  TF_CadMed = class(TfrmCadastro)
+    Label1: TLabel;
+    DBEdit1: TDBEdit;
+    Label2: TLabel;
+    DBEdit2: TDBEdit;
+    Label3: TLabel;
+    DBEdit3: TDBEdit;
+    Label4: TLabel;
+    DBEdit4: TDBEdit;
+    procedure btnNovoClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  F_CadMed: TF_CadMed;
+
+implementation
+
+uses UDM;
+
+{$R *.dfm}
+
+procedure TF_CadMed.btnNovoClick(Sender: TObject);
+begin
+  inherited;
+  DBEdit2.SetFocus;
+
+end;
+
+procedure TF_CadMed.FormCreate(Sender: TObject);
+begin
+  inherited;
+  DataSource1.DataSet.Open;
+end;
+
+end.

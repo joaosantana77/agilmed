@@ -1,0 +1,287 @@
+unit UDM;
+
+interface
+
+uses
+  SysUtils, Classes, DBXpress, DB, SqlExpr, FMTBcd, DBClient, Provider,
+  Forms, Dialogs, WideStrings, DBXFirebird;
+
+type
+  TDM = class(TDataModule)
+    CONEXAO: TSQLConnection;
+    sqlMedicos: TSQLDataSet;
+    dspMedicos: TDataSetProvider;
+    cdsMedicos: TClientDataSet;
+    cdsMedicosIDMED: TIntegerField;
+    cdsMedicosNOME: TStringField;
+    cdsMedicosCARGO: TStringField;
+    cdsMedicosCRM: TStringField;
+    sqlRemedios: TSQLDataSet;
+    dspRemedios: TDataSetProvider;
+    cdsRemedios: TClientDataSet;
+    cdsRemediosIDREMEDIO: TIntegerField;
+    cdsRemediosNOME: TStringField;
+    spRemedios_IU: TSQLStoredProc;
+    spRemedios_D: TSQLStoredProc;
+    sqlCadRemed: TSQLDataSet;
+    dspCadRemed: TDataSetProvider;
+    cdsCadRemed: TClientDataSet;
+    cdsCadRemedIDREMEDIO: TIntegerField;
+    cdsCadRemedNOME: TStringField;
+    sqlCadLoc: TSQLDataSet;
+    dspCadLoc: TDataSetProvider;
+    cdsCadLoc: TClientDataSet;
+    spCadLoc_IU: TSQLStoredProc;
+    spCadLoc_D: TSQLStoredProc;
+    cdsCadLocIDPOSTO: TIntegerField;
+    cdsCadLocTIT1: TStringField;
+    cdsCadLocTIT2: TStringField;
+    cdsCadLocTIT3: TStringField;
+    sqlCadExam: TSQLDataSet;
+    dspCadExam: TDataSetProvider;
+    cdsCadExam: TClientDataSet;
+    spCadExam_IU: TSQLStoredProc;
+    spCadExam_D: TSQLStoredProc;
+    cdsCadExamIDEXAME: TIntegerField;
+    cdsCadExamNOME: TStringField;
+    cdsCadExamGRUPO: TStringField;
+    cdsCadExamSN: TStringField;
+    sqlCadPos: TSQLDataSet;
+    dspCadPos: TDataSetProvider;
+    cdsCadPos: TClientDataSet;
+    spPOSOL_IU: TSQLStoredProc;
+    spPOSOL_D: TSQLStoredProc;
+    cdsCadPosIDPOSOL: TIntegerField;
+    cdsCadPosPOSOLOGIA: TStringField;
+    sqlEXAMES: TSQLDataSet;
+    dspEXAMES: TDataSetProvider;
+    cdsEXAMES: TClientDataSet;
+    cdsEXAMESIDEXAME: TIntegerField;
+    cdsEXAMESNOME: TStringField;
+    cdsEXAMESGRUPO: TStringField;
+    cdsEXAMESSN: TStringField;
+    cdsRemediosAPRESENTACAO: TStringField;
+    cdsCadRemedAPRESENTACAO: TStringField;
+    sqlCadPACI: TSQLDataSet;
+    dspCadPACI: TDataSetProvider;
+    cdsCadPACI: TClientDataSet;
+    spPACIENTES_IU: TSQLStoredProc;
+    spPACIENTES_D: TSQLStoredProc;
+    cdsCadPACIIDPACIENTE: TIntegerField;
+    cdsCadPACIDATA_ATEND: TSQLTimeStampField;
+    cdsCadPACIIDADE: TIntegerField;
+    cdsCadPACINOME: TStringField;
+    cdsRemediosPOSOLOGIA: TStringField;
+    cdsCadRemedPOSOLOGIA: TStringField;
+    procedure cdsCadRemedBeforeDelete(DataSet: TDataSet);
+    procedure cdsCadRemedBeforePost(DataSet: TDataSet);
+    procedure cdsCadLocBeforeDelete(DataSet: TDataSet);
+    procedure cdsCadLocBeforePost(DataSet: TDataSet);
+    procedure cdsCadExamBeforeDelete(DataSet: TDataSet);
+    procedure cdsCadExamBeforePost(DataSet: TDataSet);
+    procedure cdsCadPosBeforeDelete(DataSet: TDataSet);
+    procedure cdsCadPosBeforePost(DataSet: TDataSet);
+    procedure CONEXAOBeforeConnect(Sender: TObject);
+    procedure cdsRemediosAfterScroll(DataSet: TDataSet);
+    procedure cdsCadPACIBeforeDelete(DataSet: TDataSet);
+    procedure cdsCadPACIBeforePost(DataSet: TDataSet);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    Transc: TTransactionDesc;
+    procedure Start;
+    procedure Comit;
+    procedure Rollback;
+
+  end;
+
+var
+  DM: TDM;
+
+implementation
+
+uses uLibrary, Uprincipal;
+
+{$R *.dfm}
+
+procedure TDM.Start;
+begin
+  Transc.IsolationLevel := xilREADCOMMITTED;
+  Transc.TransactionID := StrToInt(IdTransaction);
+  Conexao.StartTransaction(Transc);
+end;
+
+procedure TDM.Comit;
+begin
+  Conexao.Commit(Transc);
+end;
+
+procedure TDM.Rollback;
+begin
+  Conexao.Rollback(Transc);
+  raise Exception.Create(MSG_ERRO);
+end;
+
+
+procedure TDM.cdsCadRemedBeforeDelete(DataSet: TDataSet);
+begin
+  with spRemedios_D do
+  begin
+     Params[0].AsInteger := cdsCadRemedIDREMEDIO.AsInteger;
+     ExecProc;
+  end;
+end;
+
+procedure TDM.cdsCadRemedBeforePost(DataSet: TDataSet);
+begin
+  DM.Start;
+  try
+     with spRemedios_IU do
+     begin
+        Params[00].AsInteger  := cdsCadRemedIDREMEDIO.AsInteger;
+        Params[01].AsString   := cdsCadRemedNOME.AsString;
+        Params[02].AsString   := cdsCadRemedAPRESENTACAO.AsString;
+        Params[03].AsString   := cdsCadRemedPOSOLOGIA.AsString;
+        ExecProc;
+        DM.Comit;
+    end;
+  except
+     DM.Rollback
+  end;
+
+end;
+
+procedure TDM.cdsRemediosAfterScroll(DataSet: TDataSet);
+begin
+   F_Principal.edtApres.Text := cdsRemediosAPRESENTACAO.AsString;
+   F_Principal.edtPos.Text   := cdsRemediosPOSOLOGIA.AsString;
+end;
+
+procedure TDM.cdsCadLocBeforeDelete(DataSet: TDataSet);
+begin
+  with spCadLoc_D do
+  begin
+     Params[0].AsInteger := cdsCadLocIDPOSTO.AsInteger;
+     ExecProc;
+  end;
+end;
+
+
+procedure TDM.cdsCadLocBeforePost(DataSet: TDataSet);
+begin
+  DM.Start;
+  try
+     with spCadLoc_IU do
+     begin
+        Params[00].AsInteger  := cdsCadLocIDPOSTO.AsInteger;
+        Params[01].AsString   := cdsCadLocTIT1.AsString;
+        Params[02].AsString   := cdsCadLocTIT2.AsString;
+        Params[03].AsString   := cdsCadLocTIT3.AsString;
+        ExecProc;
+        DM.Comit;
+    end;
+  except
+     DM.Rollback
+  end;
+
+end;
+
+procedure TDM.cdsCadExamBeforeDelete(DataSet: TDataSet);
+begin
+  with spCadExam_D do
+  begin
+     Params[0].AsInteger := cdsCadExamIDEXAME.AsInteger;
+     ExecProc;
+  end;
+end;
+
+procedure TDM.cdsCadExamBeforePost(DataSet: TDataSet);
+begin
+  DM.Start;
+  try
+     with spCadExam_IU do
+     begin
+        Params[00].AsInteger  := cdsCadExamIDEXAME.AsInteger;
+        Params[01].AsString   := cdsCadExamNOME.AsString;
+        Params[02].AsString   := cdsCadExamGRUPO.AsString;
+        ExecProc;
+        DM.Comit;
+    end;
+  except
+     DM.Rollback
+  end;
+end;
+
+procedure TDM.cdsCadPACIBeforeDelete(DataSet: TDataSet);
+begin
+  with spPACIENTES_D do
+  begin
+     Params[0].AsInteger := cdsCadPACIIDPACIENTE.AsInteger;
+     ExecProc;
+  end;
+
+end;
+
+procedure TDM.cdsCadPACIBeforePost(DataSet: TDataSet);
+begin
+  DM.Start;
+  try
+     with spPACIENTES_IU do
+     begin
+        Params[00].AsInteger  := cdsCadPACIIDPACIENTE.AsInteger;
+        Params[01].AsString   := cdsCadPaciNOME.AsString;
+        Params[02].AsInteger  := cdsCadPaciIDADE.AsInteger;
+        Params[03].AsDate     := now();
+        ExecProc;
+        DM.Comit;
+    end;
+  except
+     DM.Rollback
+  end;
+
+end;
+
+procedure TDM.cdsCadPosBeforeDelete(DataSet: TDataSet);
+begin
+  with spPOSOL_D do
+  begin
+     Params[0].AsInteger := cdsCadPosIDPOSOL.AsInteger;
+     ExecProc;
+  end;
+
+end;
+
+procedure TDM.cdsCadPosBeforePost(DataSet: TDataSet);
+begin
+  DM.Start;
+  try
+     with spPOSOL_IU do
+     begin
+        Params[00].AsInteger  := cdsCadPosIDPOSOL.AsInteger;
+        Params[01].AsString   := cdsCadPosPOSOLOGIA.AsString;
+        ExecProc;
+        DM.Comit;
+    end;
+  except
+     DM.Rollback
+  end;
+
+end;
+
+procedure TDM.CONEXAOBeforeConnect(Sender: TObject);
+begin
+  Try
+     with CONEXAO do
+     begin
+       Params.Values['DATABASE'] := ExtractFilePath(Application.ExeName)+'AGILMED.FDB';
+       Params.Values['USERNAME'] := 'SYSDBA';
+       Params.Values['PASSWORD'] := 'masterkey';
+     end;
+  Except
+    ShowMessage('Não foi possivel conectar! Nenhum servidor disponível...');
+  End;
+
+end;
+
+end.
